@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COTS 1 ProWeb</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f4f4;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .container-main {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+
+        /* HEADER */
+        .header {
+            height: 36px;
+            background: #d0d0d0;
+            padding: 5px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .header strong {
+            font-size: 16px;
+        }
+
+        /* TOOLBAR */
+        .toolbar {
+            min-height: 38px;
+            background: #fafafa;
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 6px;
+        }
+
+        .toolbar-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #eee;
+            border: 1px solid #ddd;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #555;
+            border-radius: 3px;
+        }
+
+        .toolbar-btn img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .search-box {
+            width: 220px;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 3px 6px;
+            border-radius: 3px;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 11px;
+        }
+
+        .search-box img {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* LAYOUT UTAMA */
+        .content {
+            display: flex;
+            width: 100%;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* SIDEBAR KIRI */
+        .sidebar {
+            width: 27%;
+            min-width: 250px;
+            flex-shrink: 0;
+            background-color: #f1f1f1;
+            border-right: 3px solid #ccc;
+        }
+
+        .sidebar-title {
+            background: #414141;
+            color: white;
+            padding: 9px 10px;
+            font-weight: bold;
+        }
+
+        .letter {
+            display: flex;
+            gap: 10px;
+            padding: 10px 9px;
+            background: white;
+            border-left: 4px solid #414141;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 85px;
+            margin: 5px 5px;
+        }
+
+        .letter-icon img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .letter-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .letter-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .sender {
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .date {
+            font-size: 10px;
+            color: #888;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .subject {
+            color: #666;
+            margin-top: 3px;
+        }
+
+        /* MAIN */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 0 16px 20px;
+            background-color: white;
+        }
+
+        /* DASHBOARD */
+        .dashboard-header {
+            margin: 0 -16px 12px;              
+            border-bottom: 4px solid #f36b21;
+        }
+
+        .dashboard-title {
+            display: inline-block;
+            background: #f36b21;
+            color: white;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0 0 0 6px;
+            border-radius: 5px 5px 0 0;    
+        }
+
+        /* ACTION BUTTON */
+        .action-buttons {
+            display: flex;
+            flex-wrap: nowrap;                
+            gap: 7px;
+            margin-bottom: 15px;
+            overflow-x: auto;                  
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #eee;
+            border: 1px solid #ddd;
+            padding: 5px 8px;
+            color: #666;
+            font-size: 11px;
+            white-space: nowrap;               
+            flex-shrink: 0;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .action-btn img {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* SUMMARY CARD */
+        .summary-card {
+            min-height: 112px;
+            border: 1px solid #ddd;
+            color: white;
+        }
+
+        .green {
+            background: #20bf50;
+        }
+
+        .blue {
+            background: #20b5d8;
+        }
+
+        .red {
+            background: #f04e54;
+        }
+
+        .card-main {
+            display: flex;
+            align-items: center;
+            min-height: 80px;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .card-info {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .number {
+            display: block;
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .card-label {
+            font-size: 11px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f7f7f7;
+            padding: 7px 9px;
+            font-size: 10px;
+        }
+
+        .card-footer img {
+            width: 13px;
+            height: 13px;
+        }
+
+        .footer-green {
+            color: #20a94a;
+        }
+
+        .footer-blue {
+            color: #159bbb;
+        }
+
+        .footer-red {
+            color: #df454a;
+        }
+
+        /* TODO */
+        .todo-panel {
+            margin-top: 17px;
+        }
+
+        .todo-header {
+            background: #7563b5;
+            color: white;
+            padding: 9px 12px;
+            font-weight: bold;
+        }
+
+        .todo-search {
+            display: flex;
+            align-items: center;
+            background: white;
+            margin-top: 7px;
+            border-radius: 2px;
+        }
+
+        .todo-search input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            padding: 7px 9px;
+            font-size: 11px;
+        }
+
+        .todo-search img {
+            width: 15px;
+            height: 15px;
+            margin: 0 9px;
+        }
+
+        .empty-todo {
+            text-align: center;
+            font-style: italic;
+            padding: 15px;
+            font-size: 11px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .content {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 3px solid #ccc;
+            }
+
+            .main-content {
+                padding-top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container-main">
+
+    <!-- HEADER -->
+    <header class="header">
+        <strong>COTS 1 ProWeb</strong>
+        <span>Hi, [103092400032 - SELVI ALFIANA DEWI]</span>
+    </header>
+
+    <!-- TOOLBAR -->
+    <nav class="toolbar">
+
+        <div class="toolbar-left">
+
+            <div class="toolbar-btn">
+                <img src="ICONS/kotak-masuk-abu.svg" alt="">
+                Incoming Letter
+            </div>
+
+            <div class="toolbar-btn">
+                <img src="ICONS/folder-abu.svg" alt="">
+                My Folder
+            </div>
+
+        </div>
+
+        <div class="search-box">
+            <input type="search" placeholder="Search ...">
+            <img src="ICONS/cari-abu.svg" alt="Search">
+        </div>
+
+    </nav>
+
+    <div class="content">
+
+        <!-- SIDEBAR INCOMING LETTER -->
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Incoming Letter
+            </div>
+
+            <!-- SURAT PERTAMA -->
+            <div class="letter">
+
+                <div class="letter-icon">
+                    <img src="ICONS/surat-abu-muda.svg" alt="">
+                </div>
+
+                <div class="letter-content">
+
+                    <div class="letter-top">
+
+                        <div class="sender">
+                            Carlos
+                        </div>
+
+                        <div class="date">
+                            10 Oct<br>14:11
+                        </div>
+
+                    </div>
+
+                    <div class="subject">
+                        Undangan Kunjungan Mahasiswa ke Spanyol
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SURAT KEDUA -->
+            <div class="letter">
+
+                <div class="letter-icon">
+                    <img src="ICONS/surat-abu-muda.svg" alt="">
+                </div>
+
+                <div class="letter-content">
+
+                    <div class="letter-top">
+
+                        <div class="sender">
+                            PUTI Telkom University Surabaya
+                        </div>
+
+                        <div class="date">
+                            10 Oct<br>11:00
+                        </div>
+
+                    </div>
+
+                    <div class="subject">
+                        Pemberitahuan Maintenance LMS
+                    </div>
+
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- DASHBOARD -->
+        <main class="main-content">
+
+            <!-- TAB DASHBOARD + GARIS ORANYE -->
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    Dashboard
+                </div>
+            </div>
+
+            <!-- TOMBOL SURAT (satu baris) -->
+            <div class="action-buttons">
+
+                <div class="action-btn">
+                    <img src="ICONS/dokumen-abu.svg" alt="">
+                    Create Internal Letter
+                </div>
+
+                <div class="action-btn">
+                    <img src="ICONS/dokumen-abu.svg" alt="">
+                    Create External Letter
+                </div>
+
+                <div class="action-btn">
+                    <img src="ICONS/dokumen-abu.svg" alt="">
+                    Create Invitational Letter
+                </div>
+
+            </div>
+
+            <!-- KARTU RINGKASAN -->
+            <div class="row g-3">
+
+                <!-- NEED FOLLOW UP -->
+                <div class="col-12 col-md-4">
+
+                    <div class="summary-card green">
+
+                        <div class="card-main">
+
+                            <img class="card-icon"
+                                 src="ICONS/kotak-masuk-putih.svg"
+                                 alt="">
+
+                            <div class="card-info">
+
+                                <span class="number">0</span>
+
+                                <span class="card-label">
+                                    Need Follow Up
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer footer-green">
+
+                            <span>View Details</span>
+
+                            <img src="ICONS/panah-hijau.svg" alt="">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- INCOMING LETTER -->
+                <div class="col-12 col-md-4">
+
+                    <div class="summary-card blue">
+
+                        <div class="card-main">
+
+                            <img class="card-icon"
+                                 src="ICONS/dokumen-putih.svg"
+                                 alt="">
+
+                            <div class="card-info">
+
+                                <span class="number">0</span>
+
+                                <span class="card-label">
+                                    Incoming Letter
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer footer-blue">
+
+                            <span>View Details</span>
+
+                            <img src="ICONS/panah-biru.svg" alt="">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- DISPOSITION -->
+                <div class="col-12 col-md-4">
+
+                    <div class="summary-card red">
+
+                        <div class="card-main">
+
+                            <img class="card-icon"
+                                 src="ICONS/percakapan-putih.svg"
+                                 alt="">
+
+                            <div class="card-info">
+
+                                <span class="number">0</span>
+
+                                <span class="card-label">
+                                    Disposition
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer footer-red">
+
+                            <span>View Details</span>
+
+                            <img src="ICONS/panah-merah.svg" alt="">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL TODO -->
+            <section class="todo-panel">
+
+                <div class="todo-header">
+
+                    Todo
+
+                    <div class="todo-search">
+
+                        <input type="search"
+                               placeholder="Search todo...">
+
+                        <img src="ICONS/cari-abu-gelap.svg"
+                             alt="Search">
+
+                    </div>
+
+                </div>
+
+                <div class="empty-todo">
+                    You don't have ToDo
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+</body>
+</html>
